@@ -11,15 +11,40 @@ def mykmeans(X, k):
     try:
         data_frame = pd.DataFrame(data=X)
         data_frame_cluster = data_frame.sample(n=k)
-        for i in data_frame_cluster:
-            pass
+        print(data_frame_cluster)
+
+        cluster = {}
+        for i, center in enumerate(data_frame_cluster.values):
+            cluster[i] = []
+
+        for point in data_frame.values:
+            euclDist = float('inf')
+            euclCenter = ()
+            for i, center in enumerate(data_frame_cluster.values):
+                dist = distance.euclidean(point, center)
+                if dist < euclDist:
+                    euclDist = dist
+                    euclCenter = i
+
+            # cluster[euclCenter] = []
+            if cluster[euclCenter]:
+                cluster[euclCenter].append(euclDist)
+            else:
+                cluster[euclCenter] = [euclDist]
+        print(cluster)
+
+        # for center in data_frame_cluster.values:
+        #     test = [()]
+        #     for point in data_frame.values:
+        #         print(distance.euclidean(point, center))
         # euclidean_distance = distance.cdist(data_frame.values, data_frame_cluster, 'euclidean')
     except Exception as e:
         print(e)
 
 
 if __name__ == '__main__':
-    data = np.genfromtxt("NBAstats.csv", delimiter=",", skip_header=1, usecols=(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28))
+    data = np.genfromtxt("NBAstats.csv", delimiter=",", skip_header=1, usecols=(
+    1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28))
     k_means_data = data[:, 1:]
     # data = pd.read_csv("NBAstats.csv", delimiter=",")
     standard_deviation = np.std(k_means_data)
