@@ -11,9 +11,22 @@ def mykmeans(X, k):
     try:
         data_frame = pd.DataFrame(data=X)
         data_frame_cluster = data_frame.sample(n=k)
-        for i in data_frame_cluster:
-            pass
-        # euclidean_distance = distance.cdist(data_frame.values, data_frame_cluster, 'euclidean')
+        mean_of_cluster = [cluster.mean() for cluster in data_frame_cluster.values]
+        d = {}
+        # d = []
+        for i, cluster in enumerate(data_frame_cluster.values):
+            d[cluster.mean()] = []
+            for j, point in enumerate(data_frame.values):
+                d[cluster.mean()].append(distance.euclidean(point, cluster))
+                # d.append(distance.euclidean(point, cluster))
+        difference = []
+        print(d)
+        # calculate difference taking mean of every cluster and subtracting it from each mean.
+        # which one has lowest distance we can say that belongs to that cluster.
+        for i in mean_of_cluster:
+            for j in d:
+                difference.append(i-j)
+        # difference
     except Exception as e:
         print(e)
 
