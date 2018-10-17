@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance
-from sklearn.cluster import KMeans
 
 
 def find_cluster(data_frame, data_frame_cluster):
@@ -63,15 +62,6 @@ def mykmeans(X, k):
         print(e)
 
 
-def libkmeans(data, k):
-    kmeans = KMeans(n_clusters=k)
-    kmeans.fit(data)
-    centroids = kmeans.cluster_centers_
-    print("Library Kmeans")
-    print("For k = " + str(k) + " centers are: ")
-    print(centroids)
-
-
 if __name__ == '__main__':
     data = np.genfromtxt("NBAstats.csv", delimiter=",", skip_header=1, usecols=(
         1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28))
@@ -99,6 +89,7 @@ if __name__ == '__main__':
     # test_label = knn_data[375:, 0].reshape(100, 1)
     # test_data = knn_data[375:, 1:]
     mykmeans(X=data, k=3)
-    # libkmeans(data, 3)
     mykmeans(X=data, k=5)
-    # libkmeans(data, 5)
+    data = pd.DataFrame(data=data, columns=[10, 13, 17, 20, 21, 22, 23])
+    mykmeans(data, 3)
+    mykmeans(data, 5)
