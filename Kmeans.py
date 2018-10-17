@@ -4,28 +4,29 @@ from scipy.spatial import distance
 
 
 def mykmeans(X, k):
-    # DONE create k random centroid from dataset.
-    # TODO count euclidean distance from each centroid.
-    # TODO we find the new centroid by taking the average of all the points assigned to that cluster.
-    # TODO we repeat step 2 and 3 until none of the cluster assignments change. That means until our clusters remain stable, we repeat the algorithm
-    try:
-        data_frame = pd.DataFrame(data=X)
-        data_frame_cluster = data_frame.sample(n=k)
-        mean_of_cluster = [cluster.mean() for cluster in data_frame_cluster.values]
-        d = {}
-        for i, cluster in enumerate(data_frame.values):
-            d[i] = []
-            for j, point in enumerate(data_frame.values):
-                d[cluster.mean()].append(distance.euclidean(point, cluster))
-
-        # calculate difference taking mean of every cluster and subtracting it from each mean.
-        # which one has lowest distance we can say that belongs to that cluster.
-        for i in mean_of_cluster:
-            for j in d:
-                difference.append(i - j)
-        # difference
-    except Exception as e:
-        print(e)
+    pass
+    # # DONE create k random centroid from dataset.
+    # # TODO count euclidean distance from each centroid.
+    # # TODO we find the new centroid by taking the average of all the points assigned to that cluster.
+    # # TODO we repeat step 2 and 3 until none of the cluster assignments change. That means until our clusters remain stable, we repeat the algorithm
+    # try:
+    #     data_frame = pd.DataFrame(data=X)
+    #     data_frame_cluster = data_frame.sample(n=k)
+    #     mean_of_cluster = [cluster.mean() for cluster in data_frame_cluster.values]
+    #     d = {}
+    #     for i, cluster in enumerate(data_frame.values):
+    #         d[i] = []
+    #         for j, point in enumerate(data_frame.values):
+    #             d[cluster.mean()].append(distance.euclidean(point, cluster))
+    #
+    #     # calculate difference taking mean of every cluster and subtracting it from each mean.
+    #     # which one has lowest distance we can say that belongs to that cluster.
+    #     for i in mean_of_cluster:
+    #         for j in d:
+    #             difference.append(i - j)
+    #     # difference
+    # except Exception as e:
+    #     print(e)
 
 
 if __name__ == '__main__':
