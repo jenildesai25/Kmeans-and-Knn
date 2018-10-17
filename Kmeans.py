@@ -1,12 +1,80 @@
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance
+from sklearn.cluster import KMeans
+
+
+def find_cluster(data_frame, data_frame_cluster):
+    cluster = {}
+    for i, center in enumerate(data_frame_cluster.values):
+        cluster[i] = []
+
+    for j, point in enumerate(data_frame.values):
+        euclDist = float('inf')
+        euclCenter = 0
+        for i, center in enumerate(data_frame_cluster.values):
+            dist = distance.euclidean(point, center)
+            if dist < euclDist:
+                euclDist = dist
+                euclCenter = i
+
+        # cluster[euclCenter] = []
+        if cluster[euclCenter]:
+            cluster[euclCenter].append(point)
+        else:
+            cluster[euclCenter] = [point]
+    # print(cluster)
+    return cluster
 
 
 def mykmeans(X, k):
-  pass
+    # DONE create k random centroid from dataset.
+    # TODO count euclidean distance from each centroid.
+    # TODO we find the new centroid by taking the average of all the points assigned to that cluster.
+    # TODO we repeat step 2 and 3 until none of the cluster assignments change. That means until our clusters remain stable, we repeat the algorithm
+    try:
+        data_frame = pd.DataFrame(data=X)
+        data_frame = data_frame
+        data_frame_cluster = data_frame.sample(n=k)
+        # print(data_frame_cluster)
+
+        prev_centers = []
+        while True:
+            # Group data in clusters
+            cluster = find_cluster(data_frame, data_frame_cluster)
+
+            # Calculate new centroid
+            centers = []
+            for clusterKey, clusterValue in cluster.items():
+                df = pd.DataFrame(clusterValue)
+                center = []
+                for column in df:
+                    center.append(df[column].mean())
+                centers.append(center)
+
+            # Breaking condition, if prev centers and current centers are same
+            if prev_centers == centers:
+                break
+            data_frame_cluster = pd.DataFrame(centers)
+            prev_centers = centers
+        print("For k = " + str(k) + " centers are: ")
+        print(centers)
+    except Exception as e:
+        print(e)
+
+
+def libkmeans(data, k):
+    kmeans = KMeans(n_clusters=k)
+    kmeans.fit(data)
+    centroids = kmeans.cluster_centers_
+    print("Library Kmeans")
+    print("For k = " + str(k) + " centers are: ")
+    print(centroids)
+
+
 if __name__ == '__main__':
-    data = np.genfromtxt("NBAstats.csv", delimiter=",", skip_header=1, usecols=(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28))
+    data = np.genfromtxt("NBAstats.csv", delimiter=",", skip_header=1, usecols=(
+        1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28))
     # k_means_data = data[:, 1:]
     knn_data = pd.read_csv("NBAstats.csv", delimiter=",")
     data = pd.DataFrame(data=data)
@@ -31,4 +99,6 @@ if __name__ == '__main__':
     # test_label = knn_data[375:, 0].reshape(100, 1)
     # test_data = knn_data[375:, 1:]
     mykmeans(X=data, k=3)
+    # libkmeans(data, 3)
     mykmeans(X=data, k=5)
+    # libkmeans(data, 5)
