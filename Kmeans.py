@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from scipy.spatial import distance
 
-
 def find_cluster(data_frame, data_frame_cluster):
     cluster = {}
     for i, center in enumerate(data_frame_cluster.values):
@@ -33,7 +32,7 @@ def mykmeans(X, k):
     # TODO we repeat step 2 and 3 until none of the cluster assignments change. That means until our clusters remain stable, we repeat the algorithm
     try:
         data_frame = pd.DataFrame(data=X)
-        data_frame = data_frame
+        # data_frame = data_frame
         data_frame_cluster = data_frame.sample(n=k)
         # print(data_frame_cluster)
 
