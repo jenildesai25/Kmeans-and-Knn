@@ -2,10 +2,6 @@ import numpy as np
 import pandas as pd
 from scipy.spatial import distance
 
-from KNeighborsClassifier import KNeighborsClassifier
-from knn import Knn
-
-
 def find_cluster(data_frame, data_frame_cluster):
     cluster = {}
     for i, center in enumerate(data_frame_cluster.values):
