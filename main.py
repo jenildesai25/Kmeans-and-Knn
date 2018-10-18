@@ -1,4 +1,5 @@
 from Kmeans import mykmeans
+from knn import execute as knn_execute
 import pandas as pd
 import numpy as np
 from copy import deepcopy
@@ -23,9 +24,17 @@ def main():
                 data[column][j] = (data[column][j] - list_of_columns_mean[i]) / list_of_columns_standard_deviation[i]
             i += 1
         kmeans_data = deepcopy(data)
-        data.insert(0, column=0, value=position_of_player)
         mykmeans(X=kmeans_data, k=3)
         mykmeans(X=kmeans_data, k=5)
+        kmeans_data = pd.DataFrame(data=kmeans_data, columns=[10, 13, 17, 20, 21, 22, 23])
+        mykmeans(kmeans_data, 3)
+        mykmeans(kmeans_data, 5)
+
+        data.insert(0, column=0, value=position_of_player)
+        knn_execute(data.values, [1, 5, 10, 30])
+        data = pd.DataFrame(data=data, columns=[0, 10, 13, 17, 20, 21, 22, 23])
+        knn_execute(data.values, [1, 5, 10, 30])
+
     except Exception as e:
         print(e)
 

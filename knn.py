@@ -55,13 +55,13 @@ def calculate_knn_and_accuracy(training_data, test_data, k_val):
 
 
 # Get Data
-def excute(master_dataset, k_values):
+def execute(master_dataset, k_values):
 
     master_data = master_dataset
     training_data = master_data[:-100]
     test_data = master_data[-100:]
 
-    k_values = [1, 5, 10, 30]
+    # k_values = [1, 5, 10, 30]
 
     for k_val in k_values:
         accuracy = calculate_knn_and_accuracy(training_data, test_data, k_val)
