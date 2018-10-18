@@ -1,4 +1,7 @@
 from Kmeans import mykmeans
+import pandas as pd
+import numpy as np
+from copy import deepcopy
 
 
 def main():
@@ -18,9 +21,13 @@ def main():
             for j in range(len(data[column])):
                 data[column][j] = (data[column][j] - list_of_columns_mean[i]) / list_of_columns_standard_deviation[i]
             i += 1
-        new_data = data
-        new_data.insert(0, column=0, value=position_of_player)
-        mykmeans(X=data, k=3)
-        mykmeans(X=data, k=5)
+        kmeans_data = deepcopy(data)
+        data.insert(0, column=0, value=position_of_player)
+        mykmeans(X=kmeans_data, k=3)
+        mykmeans(X=kmeans_data, k=5)
     except Exception as e:
         print(e)
+
+
+if __name__ == '__main__':
+    main()
