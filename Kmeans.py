@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 from scipy.spatial import distance
 
+from KNeighborsClassifier import KNeighborsClassifier
+from knn import Knn
+
 
 def find_cluster(data_frame, data_frame_cluster):
     cluster = {}
@@ -33,7 +36,7 @@ def mykmeans(X, k):
     # TODO we repeat step 2 and 3 until none of the cluster assignments change. That means until our clusters remain stable, we repeat the algorithm
     try:
         data_frame = pd.DataFrame(data=X)
-        data_frame = data_frame
+        # data_frame = data_frame
         data_frame_cluster = data_frame.sample(n=k)
         # print(data_frame_cluster)
 
@@ -88,8 +91,29 @@ if __name__ == '__main__':
     # training_data = data[0:375, 1:]
     # test_label = knn_data[375:, 0].reshape(100, 1)
     # test_data = knn_data[375:, 1:]
-    mykmeans(X=data, k=3)
-    mykmeans(X=data, k=5)
-    data = pd.DataFrame(data=data, columns=[10, 13, 17, 20, 21, 22, 23])
-    mykmeans(data, 3)
-    mykmeans(data, 5)
+
+    # mykmeans(X=data, k=3)
+    # mykmeans(X=data, k=5)
+    # data = pd.DataFrame(data=data, columns=[10, 13, 17, 20, 21, 22, 23])
+    # mykmeans(data, 3)
+    # mykmeans(data, 5)
+
+    training_data = data[:-100]
+    test_data = data.tail(100)
+
+    classifier = Knn()
+    predictions = []
+    k = 3
+    for x in range(len(test_data)):
+        neighbors = classifier.get_nearest_neighbors(training_data.values, test_data.values[x], k)
+        result = classifier.get_response(neighbors)
+        predictions.append(result)
+        print('> predicted=' + repr(result) + ', actual=' + repr(test_data[x][-1]))
+    accuracy = classifier.get_accuracy(test_data.values, predictions)
+    print('Accuracy: ' + repr(accuracy) + '%')
+
+    # classifier = KNeighborsClassifier()
+    # classifier.fit(training_data, column_name)
+    # print("For KNN Classifier-")
+    # print("Predictions on Test set:\n{}".format(classifier.predict(test_data)))
+    # print("Accuracy of Test set: {:.2f}".format(classifier.score(test_data, column_name)))
